@@ -1,0 +1,3 @@
+fix bug input tidak boleh spasi ngulang
+fix kalau gagal
+fix ngulang jika benar dan belum selesai
