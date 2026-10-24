@@ -1,30 +1,28 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'KataLima.dart';
+import 'KataLima.dart' as lima;
 
 void main(){
-  runApp(MainApp());
+  runApp(mainApp());
 }
 
 
-class MainApp extends StatelessWidget{
-
-  MainApp({super.key});
-  static String kata = data.kata[Random().nextInt(100)];
+class mainApp extends StatelessWidget{
+  mainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Align(
-            alignment: Alignment.center,
-            child: Text(kata),                  // fix me
+          appBar: AppBar(
+            title: Align(
+              alignment: Alignment.center,
+              child: Text("TEBAK KATA"),
+            ),
           ),
-        ),
-        body: Center(
-          child: body(),
-        )
+          body: Center(
+            child: body(),
+          )
       ),
     );
   }
@@ -34,15 +32,17 @@ class MainApp extends StatelessWidget{
 class body extends StatefulWidget{
   body({super.key});
 
+  String kata = lima.data.kata[Random().nextInt(95)];
   @override
   State<body> createState() {
-    return BodyState();
+    return bodyState(kata);
   }
-
 }
-
-class BodyState extends State<body>{
+class bodyState extends State<body>{
+  bodyState(this.kata);
+  String kata;
   int barisKe = 0;
+  bool benar = false;
   List<Widget> rows = [
     Row(spacing: 10, children: [Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white)]),
     Row(spacing: 10, children: [Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white)]),
@@ -54,9 +54,8 @@ class BodyState extends State<body>{
   void CheckJawaban(String result){
     setState(() {
       List<Kotak> newKotak = [];
-
       for (int i = 0; i < rows.length; i++){
-        if(result[i] == MainApp.kata[i]){
+        if(result[i] == this.kata[i]){
           newKotak.add(Kotak(result[i], Colors.green));
         } else{
           newKotak.add(Kotak(result[i], Colors.red));
@@ -65,17 +64,40 @@ class BodyState extends State<body>{
       var newRow = Row(spacing: 10, children: newKotak);
       rows[barisKe] = newRow;
       barisKe++;
+
+      // jika benar semua
+      if (result == this.kata || barisKe == 5){
+        this.benar = true;
+      }
     });
   }
 
   List<Widget> returnRows(){
    List<Widget> data = [];
+   data.add(Text(this.kata));         // cheatCodeco
    for (var d in rows){
      data.add(d);
    }
    data.add(inputGuess((String data){
      CheckJawaban(data);
    }));
+
+   if(this.benar == true) {
+     data.add(
+         TextButton(
+             onPressed: () {
+               setState(() {
+                 for (int i = 0; i < this.rows.length; i++){
+                   this.rows[i] = Row(spacing: 10, children: [Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white)]);
+                 }
+                 this.barisKe = 0;
+                 this.benar = false;
+                 this.kata = lima.data.kata[Random().nextInt(95)];
+               });
+             },
+             child: Text("main lagi"))
+     );
+   }
    return data;
   }
 
@@ -151,6 +173,7 @@ class inputGuessState extends State<inputGuess>{
               textEditingController.clear();
               focusNode.requestFocus();
             },
+            iconSize: 50,
             icon: Icon(Icons.arrow_circle_up)
         ),
       ],

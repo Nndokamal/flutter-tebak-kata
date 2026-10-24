@@ -1,3 +1,2 @@
-fix bug input tidak boleh spasi ngulang
-fix kalau gagal
-fix ngulang jika benar dan belum selesai
+fix kalau gagal dan benar bisa bermain lagi
+fix add yellow
