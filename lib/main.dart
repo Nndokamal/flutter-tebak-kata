@@ -23,7 +23,7 @@ class MainApp extends StatelessWidget{
           ),
         ),
         body: Center(
-          child: BodyStatefull(),
+          child: body(),
         )
       ),
     );
@@ -31,17 +31,17 @@ class MainApp extends StatelessWidget{
 }
 
 
-class BodyStatefull extends StatefulWidget{
-  BodyStatefull({super.key});
+class body extends StatefulWidget{
+  body({super.key});
 
   @override
-  State<BodyStatefull> createState() {
-    return Body();
+  State<body> createState() {
+    return BodyState();
   }
 
 }
-class Body extends State<BodyStatefull>{
 
+class BodyState extends State<body>{
   int barisKe = 0;
   List<Widget> rows = [
     Row(spacing: 10, children: [Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white)]),
@@ -55,7 +55,7 @@ class Body extends State<BodyStatefull>{
     setState(() {
       List<Kotak> newKotak = [];
 
-      for (int i = 0; i < 5; i++){
+      for (int i = 0; i < rows.length; i++){
         if(result[i] == MainApp.kata[i]){
           newKotak.add(Kotak(result[i], Colors.green));
         } else{
@@ -68,12 +68,12 @@ class Body extends State<BodyStatefull>{
     });
   }
 
-  List<Widget> ReturnRows(){
+  List<Widget> returnRows(){
    List<Widget> data = [];
    for (var d in rows){
      data.add(d);
    }
-   data.add(InputGuess(fungsi: (data) {
+   data.add(inputGuess((String data){
      CheckJawaban(data);
    }));
    return data;
@@ -85,7 +85,7 @@ class Body extends State<BodyStatefull>{
       padding: EdgeInsets.all(10),
       child: Column(
         spacing: 20,
-        children: ReturnRows()
+        children: returnRows()
       ),
     );
   }
@@ -113,12 +113,19 @@ class Kotak extends StatelessWidget{
   }
 }
 
-class InputGuess extends StatelessWidget{
-  InputGuess({super.key,required this.fungsi});
+class inputGuess extends StatefulWidget{
+  inputGuess(this.fungsi);
   void Function(String) fungsi;
+  State<inputGuess> createState() {
+    return inputGuessState(this.fungsi);
+  }
 
+}
+
+class inputGuessState extends State<inputGuess>{
+  inputGuessState(this.fungsi);
+  void Function(String) fungsi;
   TextEditingController textEditingController = TextEditingController();
-
   FocusNode focusNode = FocusNode();
 
   @override
@@ -129,9 +136,9 @@ class InputGuess extends StatelessWidget{
           child: TextField(
             maxLength: 5,
             decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))
-              )
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))
+                )
             ),
             controller: textEditingController,
             focusNode: focusNode,
@@ -139,14 +146,14 @@ class InputGuess extends StatelessWidget{
           ),
         ),
         IconButton(
-          onPressed: () {
-            fungsi(textEditingController.text.trim());
-            textEditingController.clear();
-            focusNode.requestFocus();
+            onPressed: () {
+              this.fungsi(textEditingController.text.trim());
+              textEditingController.clear();
+              focusNode.requestFocus();
             },
-              icon: Icon(Icons.arrow_circle_up)
-          ),
-        ],
+            icon: Icon(Icons.arrow_circle_up)
+        ),
+      ],
     );
   }
 }
