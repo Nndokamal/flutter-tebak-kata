@@ -49,24 +49,44 @@ class bodyState extends State<body>{
     Row(spacing: 10, children: [Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white)]),
     Row(spacing: 10, children: [Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white)]),
     Row(spacing: 10, children: [Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white)]),
+    Row(spacing: 10, children: [Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white), Kotak(" ", Colors.white)]),
   ];
 
   void CheckJawaban(String result){
+    List<String> jawaban = this.kata.split(""); // memar
+    List<String> elimResult = result.split(""); // mmear
     setState(() {
       List<Kotak> newKotak = [];
-      for (int i = 0; i < rows.length; i++){
+      for (int i = 0; i < 5; i++){
         if(result[i] == this.kata[i]){
           newKotak.add(Kotak(result[i], Colors.green));
+          jawaban[i] = "0";
+          elimResult[i] = "0";
         } else{
           newKotak.add(Kotak(result[i], Colors.red));
+        }
+      }
+      // 0em00 0me00
+      // kuning
+      for(int j = 0; j < 5; j++){
+        if(jawaban[j] == "0"){
+          continue;
+        }
+        for(int e = 0; e < 5; e++){
+          if(elimResult[e] == "0"){
+            continue;
+          } else {
+           if (jawaban[j] == elimResult[e]){
+             newKotak[e] = Kotak(elimResult[e], Colors.yellow);
+           }
+          }
         }
       }
       var newRow = Row(spacing: 10, children: newKotak);
       rows[barisKe] = newRow;
       barisKe++;
 
-      // jika benar semua
-      if (result == this.kata || barisKe == 5){
+      if (result == this.kata || barisKe == this.rows.length){
         this.benar = true;
       }
     });
@@ -74,15 +94,12 @@ class bodyState extends State<body>{
 
   List<Widget> returnRows(){
    List<Widget> data = [];
-   data.add(Text(this.kata));         // cheatCode
+   // data.add(Text(this.kata));         // cheatCode
    for (var d in rows){
      data.add(d);
    }
-   data.add(inputGuess((String data){
-     CheckJawaban(data);
-   }));
-
    if(this.benar == true) {
+     data.add(Text(this.kata));
      data.add(
          TextButton(
              onPressed: () {
@@ -97,6 +114,10 @@ class bodyState extends State<body>{
              },
              child: Text("main lagi"))
      );
+   } else {
+     data.add(inputGuess((String data){
+       CheckJawaban(data);
+     }));
    }
    return data;
   }
