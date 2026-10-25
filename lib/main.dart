@@ -53,8 +53,8 @@ class bodyState extends State<body>{
   ];
 
   void CheckJawaban(String result){
-    List<String> jawaban = this.kata.split(""); // memar
-    List<String> elimResult = result.split(""); // mmear
+    List<String> jawaban = this.kata.split("");
+    List<String> elimResult = result.split("");
     setState(() {
       List<Kotak> newKotak = [];
       for (int i = 0; i < 5; i++){
@@ -66,7 +66,7 @@ class bodyState extends State<body>{
           newKotak.add(Kotak(result[i], Colors.red));
         }
       }
-      // 0em00 0me00
+      // 0emo0 0mee0
       // kuning
       for(int j = 0; j < 5; j++){
         if(jawaban[j] == "0"){
@@ -78,6 +78,7 @@ class bodyState extends State<body>{
           } else {
            if (jawaban[j] == elimResult[e]){
              newKotak[e] = Kotak(elimResult[e], Colors.yellow);
+             break;
            }
           }
         }
