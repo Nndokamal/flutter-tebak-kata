@@ -1,11 +1,11 @@
 {
-    "name": "flutter_android_studio",
-    "short_name": "flutter_android_studio",
+    "name": "tebak_kata",
+    "short_name": "tebak_kata",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "deskripsi terserah",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

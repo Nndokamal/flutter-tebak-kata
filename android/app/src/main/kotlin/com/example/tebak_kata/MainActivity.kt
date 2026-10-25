@@ -1,4 +1,4 @@
-package com.example.flutter_android_studio
+package com.example.tebak_kata
 
 import io.flutter.embedding.android.FlutterActivity
 

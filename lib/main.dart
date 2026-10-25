@@ -74,7 +74,7 @@ class bodyState extends State<body>{
 
   List<Widget> returnRows(){
    List<Widget> data = [];
-   data.add(Text(this.kata));         // cheatCodeco
+   data.add(Text(this.kata));         // cheatCode
    for (var d in rows){
      data.add(d);
    }

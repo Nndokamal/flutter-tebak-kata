@@ -1,2 +1,0 @@
-fix kalau gagal dan benar bisa bermain lagi
-fix add yellow
