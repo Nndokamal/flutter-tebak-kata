@@ -143,7 +143,9 @@ class Kotak extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeIn,
       width: 60,
       height: 60,
       decoration: BoxDecoration(
